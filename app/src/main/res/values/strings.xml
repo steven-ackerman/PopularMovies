@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">PopularMovies</string>
+    <string name="app_name">Popular Movies</string>
+    <string name="detail_name">Movie Detail</string>
+
+    <!-- Intent Serialization -->
+    <string name="Serialized">Serialized_Data</string>
+
+    <!-- Menu Sort: Popular or User Ratings -->
+    <string name="action_sort_popularity">Popularity</string>
+    <string name="action_sort_ratings">Ratings</string>
+
+    <!-- For Images -->
+    <string name="poster_image">Poster Image</string>
+    <string name="poster_thumbnail">Poster Thumbnail</string>
+
+    <!-- For the Layouts -->
+    <string name="original_title">ORIGINAL TITLE</string>
+    <string name="user_rating">USER RATING</string>
+    <string name="release_date">RELEASE DATE</string>
+    <string name="synopsis">SYNOPSIS</string>
+
+    <!--Ratings-->
+    <string name="out_of_ten">/10</string>
+
 </resources>
