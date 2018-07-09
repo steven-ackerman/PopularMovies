@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements
         loadingIndicator.setVisibility(View.VISIBLE);
     }
 
-    //TODO: Finish MainActivity and Detail Activity.
+    //Done TODO: Finish MainActivity and Detail Activity.
 
 
     @Override
@@ -83,8 +83,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * AsyncTask class that runs the JSON data parsing and Http response processing
-     * on a background thread.
+     * AsyncTask does the JSON parsing, processes HTTP response on background thread.
      */
     private class MoviesFetchTask extends AsyncTask<Void, Void, ArrayList<String>> {
 
@@ -129,26 +128,24 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * This method handles executing the sort when menu item gets pressed.
-     *
-     * @param item The MenuItem for the menu.
+     * Handles the Type of Sort the User selects.
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // User clicked on a menu option in the app bar overflow menu
+        //Clicked on App Bar.
         switch (item.getItemId()) {
-            // Respond to a click on the "Popularity" menu option
+            // Click Response for Popularity
             case id.action_sort_by_popularity:
                 if (!sortedByPopularity) {
-                    url = NetworkUtilitiess.buildPopularListJsonUrl();
+                    url = NetworkUtilities.jSonPopularListUrl();
                     sortedByPopularity = true;
                     new MoviesFetchTask().execute();
                 }
                 return true;
-            // Respond to a click on the "Ratings" menu option
+            //Click on the Ratings Menu
             case id.action_sort_by_ratings:
                 if (sortedByPopularity) {
-                    url = NetworkUtilities.buildTopRatedListJsonUrl();
+                    url = NetworkUtilities.jSonTopRatedListUrl();
                     sortedByPopularity = false;
                     new MoviesFetchTask().execute();
                 }

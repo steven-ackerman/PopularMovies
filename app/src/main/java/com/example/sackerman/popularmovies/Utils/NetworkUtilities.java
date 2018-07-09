@@ -42,10 +42,7 @@ public class NetworkUtilities {
 
     //Parsing Data for Movie Info.
 
-    //TODO: 5/16/18  From the Ruberic:
-    // In a background thread, app queries the
-    // /movie/popular or /movie/top_rated API for the sort
-    // criteria specified in the settings menu.
+    //Done: TODO: 5/16/18  From the Ruberic:
 
     public static URL jSonPopularListUrl(){
         Uri builtUri = Uri.parse(MOVIE_API_URL+"//"+POPULAR_SORT)
@@ -65,7 +62,7 @@ public class NetworkUtilities {
         return url;
     }
 
-    private static URL jSonTopRatedListUrl(){
+    public static URL jSonTopRatedListUrl(){
         Uri builtUri = Uri.parse(MOVIE_API_URL+TOP_RATED_SORT)
                 .buildUpon()
                 .appendQueryParameter("api_key", API_KEY)
@@ -114,12 +111,12 @@ public class NetworkUtilities {
 
             boolean hasInput = scanner.hasNext();
             String response = null;
-            if (hasInput) { //Note: hasInput is true.
+            if (hasInput) {
                 response = scanner.next();
-            }//Close the scanner & return the response.
+            }//Close and Return.
             scanner.close();
             return response;
-        } finally { //Always close the socket.
+        } finally {
             urlConnection.disconnect();
         }
     }

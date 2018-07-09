@@ -40,7 +40,6 @@ public class MovieAdapter extends android.support.v7.widget.RecyclerView.Adapter
         void onClick(Movie movie);
     }
 
-    //onCreateViewHolder override.
     //Done: TODO: create movies_rv_item xml with Layout
     @NonNull
     @Override
@@ -93,8 +92,7 @@ public class MovieAdapter extends android.support.v7.widget.RecyclerView.Adapter
         @Override
         public void onClick(View context) {
             /*
-            * If Movie Poster is clicked send the current movies ID to the MovieDetails Activity
-            * Add Check in future version
+            *Send current ID to the Details Activity.
             */
             int position = getAdapterPosition();
             Movie movie = movies.get(position);
@@ -102,6 +100,8 @@ public class MovieAdapter extends android.support.v7.widget.RecyclerView.Adapter
 
         }
 
+        /*This is credit to user in Slack. Keeps from having to having to create a new
+         * Movie Adapter when new movies are fetched.Pretty slick. */
         public void swapList(List<Movie> newMovies) {
             movies = (ArrayList<Movie>) newMovies;
             notifyDataSetChanged();
