@@ -3,7 +3,7 @@
     <string name="detail_name">Movie Detail</string>
 
     <!-- Intent Serialization -->
-    <string name="Serialized">Serialized_Data</string>
+    <string name="Serialized">Serialized</string>
 
     <!-- Menu Sort: Popular or User Ratings -->
     <string name="action_sort_popularity">Popularity</string>

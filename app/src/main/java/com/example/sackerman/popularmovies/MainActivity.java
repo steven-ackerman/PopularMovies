@@ -1,9 +1,8 @@
 package com.example.sackerman.popularmovies;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,17 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.R;
 
 import com.example.sackerman.popularmovies.Adapters.MovieAdapter;
 import com.example.sackerman.popularmovies.Models.Movie;
+import com.example.sackerman.popularmovies.Utils.JsonParse;
 import com.example.sackerman.popularmovies.Utils.NetworkUtilities;
-import com.example.sackerman.popularmovies.MainActivity;
-
 import java.net.URL;
 import java.util.ArrayList;
-
-import android.R.layout;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
         MovieAdapter.MoviesAdapterOnClickHandler {
@@ -30,16 +26,17 @@ public class MainActivity extends AppCompatActivity implements
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
     private ProgressBar loadingIndicator;
-    private URL url;
+    private URL url = com.example.sackerman.popularmovies.Utils.NetworkUtilities.buildPopularListJsonUrl();
     private boolean sortedByPopularity;
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.select_dialog_item);
+        setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.layout.rv_movie);
-        loadingIndicator = findViewById(R.layout.pb_loading_indicator);
+        recyclerView = findViewById(R.id.rv_movie);
+        loadingIndicator = findViewById(R.id.pb_loading_indicator);
 
         GridLayoutManager layoutManager =
                 new GridLayoutManager(this, 2);
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements
         recyclerView.setAdapter(movieAdapter);
         showLoading();
 
-        url = NetworkUtilities.jSonPopularListUrl();
+        url = com.example.sackerman.popularmovies.Utils.NetworkUtilities.buildUserRatedJsonUrl();
         sortedByPopularity = true;
         new MoviesFetchTask().execute();
     }
@@ -85,7 +82,9 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * AsyncTask does the JSON parsing, processes HTTP response on background thread.
      */
-    private class MoviesFetchTask extends AsyncTask<Void, Void, ArrayList<String>> {
+    public class MoviesFetchTask extends AsyncTask<Void, Void, List<Movie>> {
+
+        private Void[] voids;
 
         @Override
         protected void onPreExecute() {
@@ -93,16 +92,14 @@ public class MainActivity extends AppCompatActivity implements
             super.onPreExecute();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        /* @RequiresApi(api = Build.VERSION_CODES.KITKAT) */
         @Override
-        protected ArrayList<String> doInBackground(Void... voids) {
+        protected List<Movie> doInBackground(Void...voids) {
+            this.voids = voids;
 
             try {
-                URL url = NetworkUtilities.jSonPopularListUrl();
-                ArrayList<Movie> movie;
-                String moviesFromNetwork = NetworkUtilities.getResponseFromHttpUrl(url);
-                ArrayList<String> moviesList = NetworkUtilities.parseMovieDetails(moviesFromNetwork);
-                return moviesList;
+                String jsonResponse = NetworkUtilities.getResponseFromHttpUrl(url);
+                return JsonParse.getMovieDataListFromString(jsonResponse);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -110,20 +107,20 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
 
-        @Override
-        protected void onPostExecute(ArrayList<String> movies) {
+        //@Override
+        protected void onPostExecute(ArrayList<Movie> movies) {
 
-            movies.MovieAdapter.swapList(movies);
+            movieAdapter.swapList(movies);
             showView();
         }
-    }
+    }//End MoviesFetchTask
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_main.xml file.
         // This adds menu items to the app bar.
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -135,17 +132,17 @@ public class MainActivity extends AppCompatActivity implements
         //Clicked on App Bar.
         switch (item.getItemId()) {
             // Click Response for Popularity
-            case id.action_sort_by_popularity:
+            case R.id.action_sort_by_popularity:
                 if (!sortedByPopularity) {
-                    url = NetworkUtilities.jSonPopularListUrl();
+                    url = NetworkUtilities.buildPopularListJsonUrl();
                     sortedByPopularity = true;
                     new MoviesFetchTask().execute();
                 }
                 return true;
             //Click on the Ratings Menu
-            case id.action_sort_by_ratings:
+            case R.id.action_sort_by_ratings:
                 if (sortedByPopularity) {
-                    url = NetworkUtilities.jSonTopRatedListUrl();
+                    url = NetworkUtilities.buildUserRatedJsonUrl();
                     sortedByPopularity = false;
                     new MoviesFetchTask().execute();
                 }

@@ -1,108 +1,96 @@
 package com.example.sackerman.popularmovies.Utils;
 
 import android.net.Uri;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-
-import javax.net.ssl.HttpsURLConnection;
-
-/*
-Credits: Scanners, InputSteams and Delimiters for one line:
-https://ratherbsailing.wordpress.com/2011/11/01/reading-a-string-from-an-inputstream-in-one-line/
-Tutorial on reading Strings as one line.
- */
 
 public class NetworkUtilities {
 
-    //Constants:
-    final static String MOVIE_API_SEARCH = "https://api.themoviedb.org/3/search/movie?api_key={";
-    final static String MOVIE_API_URL = "https://api.themoviedb.org/3/movie";
-    final static String API_KEY = "d4bae961a1fa0bbae35ee2a2461ef7db";
-    final static String IMAGE_URL = "http://image.tmdb.org/t/p";
-    final static String POSTER_SIZE = "W185";
-    private static String POPULAR_SORT = "popular";
-    private static String TOP_RATED_SORT = "top_rated";
+    //URL
+    private static final String IMDB_URL = "http://api.themoviedb.org/3/movie/";
+    //Popular List
+    private static final String POPULAR_SEARCH = "popular";
+    //User Rated List.
+    private static final String USER_RATED_SEARCH = "top_rated";
 
-    //Used for Threading Flag for inintialized Input Stream.
+    //API Key
+    private static final String API_KEY = "d4bae961a1fa0bbae35ee2a2461ef7db";
+    private static final String API_PARAM = "api_key";
+
+    /* Base URL for themoviedb.org API */
+    private static final String IMAGE_URL = "http://image.tmdb.org/t/p/";
+    /* Path for poster size */
+    private static final String POSTER_SIZE = "w185";
+
     private static boolean initialized = false;
 
-    //Parsing Data for Movie Info.
-
-    //Done: TODO: 5/16/18  From the Ruberic:
-
-    public static URL jSonPopularListUrl(){
-        Uri builtUri = Uri.parse(MOVIE_API_URL+"//"+POPULAR_SORT)
-                .buildUpon()
-                .appendQueryParameter("api_key", API_KEY)
-                .appendQueryParameter("language", "en-US")
-                .appendQueryParameter("page", "1")
+    /**
+     * Builds the URL to start a sorting by popularity.
+     *
+     * @return the URL to be used.
+     */
+    public static URL buildPopularListJsonUrl() {
+        Uri builtUri = Uri.parse(IMDB_URL).buildUpon()
+                .appendPath(POPULAR_SEARCH)
+                .appendQueryParameter(API_PARAM, API_KEY)
                 .build();
+        return buildUrl(builtUri);
+    }
 
-        //Create null URL & Try / Catch & create a new URL with uri toString.
+    /**
+     *
+     * Builds URL for User Rated Sort
+     *
+     */
+    public static URL buildUserRatedJsonUrl() {
+        Uri builtUri = Uri.parse(IMDB_URL).buildUpon()
+                .appendPath(USER_RATED_SEARCH)
+                .appendQueryParameter(API_PARAM, API_KEY)
+                .build();
+        return buildUrl(builtUri);
+    }
+
+    /**
+     * Builds String for getting poster data.
+     *
+     */
+    public static String buildPosterPath(String posterId) {
+        return IMAGE_URL + POSTER_SIZE + posterId;
+    }
+
+
+    /**
+     *Converts Uri to Url.
+     */
+    private static URL buildUrl(Uri uri) {
         URL url = null;
         try {
-            url = new URL(builtUri.toString());
-        }catch (MalformedURLException e){
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+
         return url;
     }
 
-    public static URL jSonTopRatedListUrl(){
-        Uri builtUri = Uri.parse(MOVIE_API_URL+TOP_RATED_SORT)
-                .buildUpon()
-                .appendQueryParameter("api_key", API_KEY)
-                .appendQueryParameter("language", "en-US")
-                .appendQueryParameter("page", "1")
-                .build();
-
-        //Create null URL & Try / Catch & create a new URL with uri toString.
-        URL url = null;
-        try {
-            url = new URL(builtUri.toString());
-        }catch (MalformedURLException e){
-            e.printStackTrace();
-        }
-        return url;
-    }
-
-    public static String posterPathUrl(String posterID){
-        return IMAGE_URL + POSTER_SIZE + posterID;
-    }
-
-    //Gets result from the HTTP Request. Takes a URL object reads the data as a Input Stream.
-
+    /**
+     * Getting the HTTP response.
+     * This was code was adapted from a Java Client/Server I wrote.
+     * See Repo: https://github.com/steven-ackerman
+     * Look at the ThreadedClient/Server repo.
+     */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         if (!initialized) {
-            CookieHandler.setDefault(new CookieHandler() {
-                @Override
-                public Map<String, List<String>> get(URI uri, Map<String, List<String>>
-                        request) throws IOException {
-                    return null;
-                }
-
-                @Override
-                public void put(URI uri, Map<String, List<String>> response) throws IOException {
-
-                }
-            });
+            CookieHandler.setDefault(new CookieManager());
             initialized = true;
         }
-        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
 
@@ -113,34 +101,11 @@ public class NetworkUtilities {
             String response = null;
             if (hasInput) {
                 response = scanner.next();
-            }//Close and Return.
+            }
             scanner.close();
             return response;
         } finally {
             urlConnection.disconnect();
         }
     }
-
-
-    public static ArrayList<String> parseMovieDetails(String movieName){
-        ArrayList<String> movies = new ArrayList<>();
-
-        String movieSearch = MOVIE_API_SEARCH+API_KEY+"}"+"&query=J"+movieName;
-
-
-        //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=movie;
-        try {
-            JSONObject movieData = new JSONObject(movieSearch);
-
-            JSONArray movieDataArray = movieData.getJSONArray(String.valueOf(movieData));
-            //ArrayList<String> = convertJsonArray(alsoKnownAsJSON);
-            //JSONArray individualMovieData = null;
-        }catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        return movies;
-    }//End parseMovieDetails Method.
-
 }

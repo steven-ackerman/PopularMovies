@@ -3,8 +3,6 @@ package com.example.sackerman.popularmovies;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.databinding.DataBindingUtil;
-
-import com.example.sackerman.popularmovies.Utils.NetworkUtilities;
 import com.example.sackerman.popularmovies.databinding.ActivityDetailBinding;
 import com.example.sackerman.popularmovies.Models.Movie;
 
@@ -36,7 +34,8 @@ class DetailActivity extends AppCompatActivity {
     private void bindingContents(Movie movie){
 
         //-----Poster------//
-        String posterPath = NetworkUtilities.posterPathUrl(movie.getPosterPath());
+        String posterPath = com.example.sackerman.popularmovies.
+                Utils.NetworkUtilities.buildPosterPath(movie.getPosterPath());
         Picasso.with(this).load(posterPath).into(detailDataBind.posterDetailImage);
 
         //-----Bind and Set Title------//
