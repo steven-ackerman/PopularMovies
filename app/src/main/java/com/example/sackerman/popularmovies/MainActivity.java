@@ -20,6 +20,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/*Credits:
+ * https://www.youtube.com/watch?v=S2aH5HCZVoQ
+ * Tutorial:
+ * http://mateoj.com/2015/10/07/creating-movies-app-retrofit-picass-android-part2/
+ * https://stackoverflow.com/questions/36220180/udacity-popular-movie-stage-1-issue
+ *
+ *  */
+
 public class MainActivity extends AppCompatActivity implements
         MovieAdapter.MoviesAdapterOnClickHandler {
 

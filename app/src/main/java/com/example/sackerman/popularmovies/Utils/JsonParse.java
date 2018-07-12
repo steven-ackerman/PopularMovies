@@ -1,12 +1,18 @@
 package com.example.sackerman.popularmovies.Utils;
 
-import android.util.Log;
+
 import com.example.sackerman.popularmovies.Models.Movie;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.List;
+
+/*Credits:
+ * https://www.youtube.com/watch?v=Y_p00Y4ACSk
+  * https://stackoverflow.com/questions/38243817/making-an-app-that-recieves-json-data-from-tmdb-org
+  * https://www.algolia.com/doc/tutorials/search-ui/instant-search/build-an-instant-search-results-page/android/
+  *
+  * */
 
 public class JsonParse {
 

@@ -28,6 +28,13 @@ class DetailActivity extends AppCompatActivity {
      *
      * Takes a Movie object from main activity.
      *
+     * Credits:
+     * https://developer.android.com/topic/libraries/data-binding/
+     * http://www.vogella.com/tutorials/AndroidDatabinding/article.html
+     *
+     * Specific to Udacity Movie App:
+     * https://medium.com/google-developer-experts/data-binding-library-great-ui-s-with-less-code-f2575e0c588e
+     *
      * */
     private void bindingContents(Movie movie){
 

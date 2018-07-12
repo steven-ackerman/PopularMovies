@@ -9,6 +9,13 @@ Credits:
 The Movie Database API Documentation:
 https://developers.themoviedb.org/3/getting-started/search-and-query-for-details
 
+Tutorial for building the Movie App.
+https://www.youtube.com/watch?v=FnlTIdJgg9s
+https://www.youtube.com/watch?v=A5xcjzBC-sw
+
+Serializable:
+
+
  */
 
 
