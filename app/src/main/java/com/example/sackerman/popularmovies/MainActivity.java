@@ -129,9 +129,9 @@ public class MainActivity extends AppCompatActivity implements
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //Clicked on App Bar.
+        //Clicked on App Bar. Switch case by
         switch (item.getItemId()) {
-            // Click Response for Popularity
+            // Click on Menu Item for Popularity
             case R.id.action_sort_by_popularity:
                 if (!sortedByPopularity) {
                     url = NetworkUtilities.buildPopularListJsonUrl();
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements
                     new MoviesFetchTask().execute();
                 }
                 return true;
-            //Click on the Ratings Menu
+            //Click on Menu Item for Ratings
             case R.id.action_sort_by_ratings:
                 if (sortedByPopularity) {
                     url = NetworkUtilities.buildUserRatedJsonUrl();

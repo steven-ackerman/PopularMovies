@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.databinding.DataBindingUtil;
 import com.example.sackerman.popularmovies.databinding.ActivityDetailBinding;
 import com.example.sackerman.popularmovies.Models.Movie;
-
-
 import com.squareup.picasso.Picasso;
 
 

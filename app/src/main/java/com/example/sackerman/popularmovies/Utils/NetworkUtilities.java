@@ -33,7 +33,6 @@ public class NetworkUtilities {
     /**
      * Builds the URL to start a sorting by popularity.
      *
-     * @return the URL to be used.
      */
     public static URL buildPopularListJsonUrl() {
         Uri builtUri = Uri.parse(IMDB_URL).buildUpon()
