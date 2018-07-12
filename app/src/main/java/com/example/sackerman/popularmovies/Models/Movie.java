@@ -1,16 +1,7 @@
 package com.example.sackerman.popularmovies.Models;
 
-import android.net.Uri;
-
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONArray;
 
 /*
 Credits:

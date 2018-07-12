@@ -1,26 +1,21 @@
 package com.example.sackerman.popularmovies.Adapters;
+
 //Imports.
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-
-import android.content.res.Resources;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sackerman.popularmovies.R;
-import com.example.sackerman.popularmovies.Utils.*;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import com.example.sackerman.popularmovies.Models.Movie;
 import com.squareup.picasso.Picasso;
@@ -32,8 +27,6 @@ public class MovieAdapter extends android.support.v7.widget.RecyclerView.Adapter
     private final Context context;
     private MoviesAdapterOnClickHandler clickHandler;
     private ArrayList<Movie> movies = new ArrayList<Movie>();
-//    private LayoutInflater inflater;
-//    private AdapterView.OnItemClickListener onItemClickListener;
 
     /*Constructor*/
     public MovieAdapter(Context currentContext,MoviesAdapterOnClickHandler clickHandler){
