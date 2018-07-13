@@ -34,8 +34,9 @@ public class MainActivity extends AppCompatActivity implements
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
     private ProgressBar loadingIndicator;
-    private URL url = com.example.sackerman.popularmovies.Utils.NetworkUtilities.buildPopularListJsonUrl();
-    private boolean sortedByPopularity;
+    private List<Movie> movieList = new ArrayList<Movie>();
+    private URL url;//Commented to Troubleshoot. = com.example.sackerman.popularmovies.Utils.NetworkUtilities.buildPopularListJsonUrl();
+    private boolean sortedUserRating;
 
     @SuppressLint("ResourceType")
     @Override
@@ -51,12 +52,12 @@ public class MainActivity extends AppCompatActivity implements
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        movieAdapter = new MovieAdapter(this, this);
+        movieAdapter = new MovieAdapter(this, movieList,this);
         recyclerView.setAdapter(movieAdapter);
         showLoading();
 
-        url = com.example.sackerman.popularmovies.Utils.NetworkUtilities.buildUserRatedJsonUrl();
-        sortedByPopularity = true;
+        url = NetworkUtilities.buildUserRatedJsonUrl();
+        sortedUserRating = true;
         new MoviesFetchTask().execute();
     }
 
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     public class MoviesFetchTask extends AsyncTask<Void, Void, List<Movie>> {
 
-        private Void[] voids;
+        //private Void[] voids;
 
         @Override
         protected void onPreExecute() {
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements
         /* @RequiresApi(api = Build.VERSION_CODES.KITKAT) */
         @Override
         protected List<Movie> doInBackground(Void...voids) {
-            this.voids = voids;
+            //this.voids = voids;
 
             try {
                 String jsonResponse = NetworkUtilities.getResponseFromHttpUrl(url);
@@ -115,8 +116,10 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
 
-        //@Override
-        protected void onPostExecute(ArrayList<Movie> movies) {
+        @Override
+        protected void onPostExecute(List<Movie> movies) {
+            //This could be where my problem is. I might need to use a list.
+            //Stopped here.
 
             movieAdapter.swapList(movies);
             showView();
@@ -141,17 +144,17 @@ public class MainActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             // Click on Menu Item for Popularity
             case R.id.action_sort_by_popularity:
-                if (!sortedByPopularity) {
+                if (!sortedUserRating) {
                     url = NetworkUtilities.buildPopularListJsonUrl();
-                    sortedByPopularity = true;
+                    sortedUserRating = true;
                     new MoviesFetchTask().execute();
                 }
                 return true;
             //Click on Menu Item for Ratings
             case R.id.action_sort_by_ratings:
-                if (sortedByPopularity) {
+                if (sortedUserRating) {
                     url = NetworkUtilities.buildUserRatedJsonUrl();
-                    sortedByPopularity = false;
+                    sortedUserRating = false;
                     new MoviesFetchTask().execute();
                 }
                 return true;

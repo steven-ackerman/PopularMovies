@@ -8,7 +8,7 @@ import com.example.sackerman.popularmovies.Models.Movie;
 import com.squareup.picasso.Picasso;
 
 
-class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity {
     private ActivityDetailBinding detailDataBind;
 
     @Override

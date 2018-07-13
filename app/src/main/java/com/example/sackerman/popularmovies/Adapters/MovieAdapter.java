@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.sackerman.popularmovies.R;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.sackerman.popularmovies.Models.Movie;
 import com.squareup.picasso.Picasso;
@@ -26,11 +27,12 @@ import com.squareup.picasso.Target;
 public class MovieAdapter extends android.support.v7.widget.RecyclerView.Adapter<MovieAdapter.MovieViewHolder>{
     private final Context context;
     private MoviesAdapterOnClickHandler clickHandler;
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
+    private List<Movie> movies = new ArrayList<>();
 
     /*Constructor*/
-    public MovieAdapter(Context currentContext,MoviesAdapterOnClickHandler clickHandler){
+    public MovieAdapter(Context currentContext, List<Movie> movies,MoviesAdapterOnClickHandler clickHandler){
         this.context = currentContext;
+        this.movies = movies;
         this.clickHandler = clickHandler;
     }
     /*Interface: Receives click messages. */
@@ -56,12 +58,13 @@ public class MovieAdapter extends android.support.v7.widget.RecyclerView.Adapter
         //holder.tvTitle.setText(movie.getTitle());
 
 
+
         //Image Views.
         /*Credit http://square.github.io/picasso */
         String posterPath = movie.getImageUrl();
         String urlPath = com.example.sackerman.popularmovies.
                 Utils.NetworkUtilities.buildPosterPath(posterPath);
-        Picasso.with(context).load(urlPath).into((Target) holder.ivPoster);
+        Picasso.with(context).load(urlPath).into(holder.ivPoster);
 
 
         //Done: ToDo: Implement getting image via API.
@@ -116,7 +119,7 @@ public class MovieAdapter extends android.support.v7.widget.RecyclerView.Adapter
 
     /*This is credit to user in Slack. Keeps from having to having to create a new
      * Movie Adapter when new movies are fetched.Pretty slick. */
-    public void swapList(ArrayList<Movie> newMovies) {
+    public void swapList(List<Movie> newMovies) {
         movies = (ArrayList<Movie>) newMovies;
         notifyDataSetChanged();
     }//End swapList method.
