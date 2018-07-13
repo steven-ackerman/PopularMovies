@@ -1,6 +1,9 @@
 package com.example.sackerman.popularmovies.Utils;
 
 import android.net.Uri;
+
+import com.example.sackerman.popularmovies.BuildConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CookieHandler;
@@ -12,6 +15,7 @@ import java.util.Scanner;
 
 public class NetworkUtilities {
 
+
     //URL
     private static final String IMDB_URL = "http://api.themoviedb.org/3/movie/";
     //Popular List
@@ -20,7 +24,7 @@ public class NetworkUtilities {
     private static final String USER_RATED_SEARCH = "top_rated";
 
     //API Key
-    private static final String API_KEY = "d4bae961a1fa0bbae35ee2a2461ef7db";
+    private static final String API_KEY = "";
     private static final String API_PARAM = "api_key";
 
     /* Base URL for themoviedb.org API */

@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.example.sackerman.popularmovies.Models.Movie;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+
 
 
 
